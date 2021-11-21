@@ -1,4 +1,4 @@
-package at.htl.restrauntmanagement.webserver;
+package at.htl.restrauntmanagement.websocket;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

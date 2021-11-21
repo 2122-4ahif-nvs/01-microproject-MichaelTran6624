@@ -1,4 +1,4 @@
-package at.htl.restrauntmanagement.webserver;
+package at.htl.restrauntmanagement.websocket;
 
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
