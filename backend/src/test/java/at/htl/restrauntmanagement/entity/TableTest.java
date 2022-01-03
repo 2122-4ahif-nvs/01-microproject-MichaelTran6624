@@ -10,14 +10,14 @@ import javax.transaction.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-class CustomerTest {
+class TableTest {
 
     @Inject
     EntityManager em;
 
     @Test
     @Transactional
-    void addCustomer() {
-        em.persist(new Customer("Michael", "Tran"));
+    void addTable(){
+        em.persist(new Table(1L,4));
     }
 }
