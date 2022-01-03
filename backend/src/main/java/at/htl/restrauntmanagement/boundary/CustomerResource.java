@@ -11,11 +11,16 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.eclipse.microprofile.graphql.GraphQLApi;
+import org.eclipse.microprofile.graphql.Mutation;
+import org.eclipse.microprofile.graphql.Query;
 import org.jboss.logging.Logger;
 
 import java.net.URI;
 import java.util.List;
 
+@GraphQLApi
 @Path("customer")
 public class CustomerResource {
 
@@ -25,31 +30,15 @@ public class CustomerResource {
     @Inject
     CustomerRepository customerRepository;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addCustomer(
-            @QueryParam("firstName") String firstName,
-            @QueryParam("lastName") String lastName,
-            @Context UriInfo uriInfo
-            ) {
-        Customer newCustomer = new Customer(
-                firstName,
-                lastName
-        );
-        logger.info(newCustomer);
-        URI uri = uriInfo
-                .getAbsolutePathBuilder()
-                .path("42")
-                .build();
-
-        return Response.created(uri).build();
+    @Mutation
+    public Customer addCustomer(Customer customer) {
+        return customerRepository.saveCustomer(customer);
     }
 
-    @Path("/all")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Query
     public List<Customer> getAllCustomer() {
         return customerRepository.getAllCustomer();
     }
-
 }

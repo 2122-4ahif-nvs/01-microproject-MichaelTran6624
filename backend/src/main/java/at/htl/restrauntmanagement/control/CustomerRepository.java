@@ -16,8 +16,8 @@ public class CustomerRepository {
     EntityManager em;
 
     @Transactional
-    public void save(Customer customer) {
-        em.persist(customer);
+    public Customer saveCustomer(Customer customer) {
+        return em.merge(customer);
     }
 
     public List<Customer> getAllCustomer(){
