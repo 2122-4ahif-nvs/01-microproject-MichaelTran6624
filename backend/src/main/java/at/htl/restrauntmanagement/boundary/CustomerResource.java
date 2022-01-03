@@ -1,5 +1,6 @@
 package at.htl.restrauntmanagement.boundary;
 
+import at.htl.restrauntmanagement.control.CustomerRepository;
 import at.htl.restrauntmanagement.entity.Customer;
 
 import javax.inject.Inject;
@@ -22,7 +23,7 @@ public class CustomerResource {
     Logger logger;
 
     @Inject
-    EntityManager em;
+    CustomerRepository customerRepository;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -48,9 +49,7 @@ public class CustomerResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Customer> getAllCustomer() {
-        TypedQuery<Customer> query = em.createQuery("select c from Customer c", Customer.class);
-        List<Customer> customers = query.getResultList();
-        return customers;
+        return customerRepository.getAllCustomer();
     }
 
 }
