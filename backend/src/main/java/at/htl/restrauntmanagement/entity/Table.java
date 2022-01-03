@@ -1,19 +1,19 @@
 package at.htl.restrauntmanagement.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@javax.persistence.Table(name = "RE_TABLE")
 public class Table {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(name = "TA_TABLENR")
     Long tableNr;
 
+    @Column(name = "TA_SEATS")
     int seats;
 
     //region constructors
@@ -51,7 +51,6 @@ public class Table {
         this.seats = seats;
     }
     //endregion
-
 
     @Override
     public String toString() {

@@ -4,28 +4,30 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@javax.persistence.Table(name = "RE_RESERVATION")
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(name = "RE_RESERVATIONDATE")
     LocalDate reservationDate;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     Customer customer;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    Table table;
+    @ManyToOne(cascade = CascadeType.ALL)
+    Table reservationTable;
 
     //region constructors
     public Reservation() {
     }
 
-    public Reservation(LocalDate reservationDate, Customer customer, Table table) {
+    public Reservation(LocalDate reservationDate, Customer customer, Table reservationTable) {
         this.reservationDate = reservationDate;
         this.customer = customer;
-        this.table = table;
+        this.reservationTable = reservationTable;
     }
 //endregion
 
@@ -54,18 +56,17 @@ public class Reservation {
         this.customer = customer;
     }
 
-    public Table getTable() {
-        return table;
+    public Table getReservationTable() {
+        return reservationTable;
     }
 
-    public void setTable(Table table) {
-        this.table = table;
+    public void setReservationTable(Table table) {
+        this.reservationTable = table;
     }
     //endregion
 
-
     @Override
     public String toString() {
-        return String.format("%d: %t %s %s", id, reservationDate, customer, table);
+        return String.format("%d: %t %s %s", id, reservationDate, customer, reservationTable);
     }
 }

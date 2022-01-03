@@ -1,17 +1,19 @@
 package at.htl.restrauntmanagement.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@javax.persistence.Table(name = "RE_CUSTOMER")
 public class Customer {
-    String firstName;
-    String lastName;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "CU_FIRSTNAME")
+    String firstName;
+
+    @Column(name = "CU_LASTNAME")
+    String lastName;
 
     //region constructors
     public Customer() {
