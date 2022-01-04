@@ -126,3 +126,65 @@ mutation addNewReservation{
   }
 }
 ----
+
+=== Validation
+
+Customer.java
+[source, java]
+----
+//
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "CU_FIRSTNAME")
+    @Size(message = "Firstname length has to be between 2 and 40", min = 2, max = 40)
+    @NotBlank(message = "Firstname cannot be empty")
+    String firstName;
+
+    @Column(name = "CU_LASTNAME")
+    @Size(message = "Lastname length has to be between 2 and 40", min = 2, max = 40)
+    @NotBlank(message = "Lastname cannot be empty")
+    String lastName;
+//
+----
+
+Table.java
+[source, java]
+----
+//
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "TA_TABLENR")
+    @NotBlank(message = "TableNr cannot be empty")
+    String tableNr;
+
+    @Column(name = "TA_SEATS")
+    @NotBlank(message = "Seats cannot be empty")
+    @Min(message = "Seats have to be greater than 1", value = 1)
+    int seats;
+//
+----
+
+Reservation.java
+[source, java]
+----
+//
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "RE_RESERVATIONDATE")
+    @NotBlank(message = "Date cannot be empty")
+    LocalDate reservationDate;
+
+    @NotBlank(message = "Customer cannot be empty")
+    @ManyToOne(cascade = CascadeType.ALL)
+    Customer customer;
+
+    @NotBlank(message = "Reservationtable cannot be empty")
+    @ManyToOne(cascade = CascadeType.ALL)
+    Table reservationTable;
+//
+----
