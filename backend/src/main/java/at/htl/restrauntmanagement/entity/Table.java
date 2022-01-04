@@ -1,6 +1,8 @@
 package at.htl.restrauntmanagement.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @javax.persistence.Table(name = "RE_TABLE")
@@ -11,9 +13,12 @@ public class Table {
     Long id;
 
     @Column(name = "TA_TABLENR")
+    @NotBlank(message = "TableNr cannot be empty")
     String tableNr;
 
     @Column(name = "TA_SEATS")
+    @NotBlank(message = "Seats cannot be empty")
+    @Min(message = "Seats have to be greater than 1", value = 1)
     int seats;
 
     //region constructors

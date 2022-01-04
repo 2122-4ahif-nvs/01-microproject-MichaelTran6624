@@ -1,6 +1,9 @@
 package at.htl.restrauntmanagement.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @javax.persistence.Table(name = "RE_CUSTOMER")
@@ -10,9 +13,13 @@ public class Customer {
     private Long id;
 
     @Column(name = "CU_FIRSTNAME")
+    @Size(message = "Firstname length has to be between 2 and 40", min = 2, max = 40)
+    @NotBlank(message = "Firstname cannot be empty")
     String firstName;
 
     @Column(name = "CU_LASTNAME")
+    @Size(message = "Lastname length has to be between 2 and 40", min = 2, max = 40)
+    @NotBlank(message = "Lastname cannot be empty")
     String lastName;
 
     //region constructors
