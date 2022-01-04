@@ -11,7 +11,7 @@ public class Table {
     Long id;
 
     @Column(name = "TA_TABLENR")
-    Long tableNr;
+    String tableNr;
 
     @Column(name = "TA_SEATS")
     int seats;
@@ -20,7 +20,7 @@ public class Table {
     public Table() {
     }
 
-    public Table(Long tableNr, int seats) {
+    public Table(String tableNr, int seats) {
         this.tableNr = tableNr;
         this.seats = seats;
     }
@@ -35,11 +35,11 @@ public class Table {
         this.id = id;
     }
 
-    public Long getTableNr() {
+    public String getTableNr() {
         return tableNr;
     }
 
-    public void setTableNr(Long tableNr) {
+    public void setTableNr(String tableNr) {
         this.tableNr = tableNr;
     }
 
@@ -54,6 +54,6 @@ public class Table {
 
     @Override
     public String toString() {
-        return String.format("%d: TableNr: %d Seats: %d", id, tableNr, seats);
+        return String.format("%d: %s: %d", id, tableNr, seats);
     }
 }

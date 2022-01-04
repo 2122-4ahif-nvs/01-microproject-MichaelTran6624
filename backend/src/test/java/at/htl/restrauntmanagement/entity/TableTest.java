@@ -18,6 +18,6 @@ class TableTest {
     @Test
     @Transactional
     void addTable(){
-        em.persist(new Table(1L,4));
+        em.persist(new Table("1L",4));
     }
 }

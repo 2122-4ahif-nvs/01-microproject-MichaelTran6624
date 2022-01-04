@@ -2,7 +2,7 @@
 left to right direction
 
 class Table {
-    tableNr: Long
+    tableNr: String
     seats: int
 }
 
