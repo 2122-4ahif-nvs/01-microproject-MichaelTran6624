@@ -1,5 +1,6 @@
 package at.htl.restrauntmanagement.control;
 
+import at.htl.restrauntmanagement.entity.Customer;
 import at.htl.restrauntmanagement.entity.Reservation;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -7,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 
 @ApplicationScoped
@@ -27,5 +29,9 @@ public class ReservationRepository {
                 .createQuery("select r from Reservation r", Reservation.class);
 
         return query.getResultList();
+    }
+
+    public void validateReservation(@Valid Reservation reservation) {
+
     }
 }
