@@ -1,3 +1,4 @@
+### POST Customer
 POST http://localhost:8080/api/graphql
 Content-Type: application/graphql
 
@@ -13,6 +14,61 @@ mutation addNewCustomer{
   }
 }
 
-###
+###GET all Customer
 GET http://localhost:8080/api/customer/allCustomer
+Accept: application/json
+
+###POST Table
+POST http://localhost:8080/api/graphql
+Content-Type: application/graphql
+
+mutation addNewTable {
+  addTable(table: {
+    tableNr: "1L",
+    seats: 3
+  	}
+  )
+  {
+    tableNr
+    seats
+  }
+}
+
+###GET all Tables
+GET http://localhost:8080/api/customer/allTables
+Accept: application/json
+
+###POST Reservation
+
+POST http://localhost:8080/api/graphql
+Content-Type: application/graphql
+
+mutation addNewReservation{
+  addReservation(reservation: {
+		customer: {
+      firstName: "Max"
+      lastName: "Muster"
+    },
+    reservationTable: {
+      tableNr: "1L"
+      seats: 3
+    },
+    reservationDate: "2022-01-04"
+  	}
+  )
+  {
+    customer{
+      firstName
+      lastName
+    }
+    reservationTable{
+      tableNr
+      seats
+    }
+    reservationDate
+  }
+}
+
+###GET all Reservation
+GET http://localhost:8080/api/customer/allReservations
 Accept: application/json
