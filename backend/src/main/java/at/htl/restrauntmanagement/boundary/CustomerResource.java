@@ -14,7 +14,7 @@ import org.eclipse.microprofile.graphql.Query;
 import java.util.List;
 
 @GraphQLApi
-@Path("customer")
+@Path("/customer")
 public class CustomerResource {
 
     @Inject
@@ -26,6 +26,7 @@ public class CustomerResource {
     }
 
     @GET
+    @Path("allCustomer")
     @Produces(MediaType.APPLICATION_JSON)
     @Query("getAllCustomer")
     public List<Customer> getAllCustomer() {
