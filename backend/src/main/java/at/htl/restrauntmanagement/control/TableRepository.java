@@ -1,0 +1,29 @@
+package at.htl.restrauntmanagement.control;
+
+import at.htl.restrauntmanagement.entity.Table;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import java.util.List;
+
+@ApplicationScoped
+public class TableRepository {
+
+    @Inject
+    EntityManager em;
+
+    @Transactional
+    public Table saveTable(Table table) {
+        return em.merge(table);
+    }
+
+    public List<Table> getAllTables() {
+        TypedQuery<Table> query = em
+                .createQuery("select t from Table t", Table.class);
+
+        return query.getResultList();
+    }
+}
