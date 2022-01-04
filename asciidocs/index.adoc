@@ -188,3 +188,94 @@ Reservation.java
     Table reservationTable;
 //
 ----
+
+=== Qute
+==== Was ist Qute?
+Qute ist eine Templating-Engine, die speziell für die Bedürfnisse von Quarkus entwickelt wurde.
+
+==== Alternative
+* Angular
+
+==== Verwendung im Mikroprojekt
+
+CustomerResource.java
+[source, java]
+----
+//
+    @CheckedTemplate
+    public static class Templates {
+        public static native TemplateInstance customers(Customer customer);
+        public static native TemplateInstance tables(Table table);
+        public static native TemplateInstance reservations(Reservation reservation);
+    }
+//
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/html/customer/{id}")
+    public TemplateInstance getCustomerHTML(@PathParam("id") Long id) {
+        return Templates.customers(customerRepository.findById(id));
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/html/table/{id}")
+    public TemplateInstance getTableHTML(@PathParam("id") Long id) {
+        return Templates.tables(tableRepository.findById(id));
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/html/reservation/{id}")
+    public TemplateInstance getReservationHTML(@PathParam("id") Long id) {
+        return Templates.reservations(reservationRepository.findById(id));
+    }
+//
+----
+
+customer.html
+[source,html]
+----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CustomerID {customer.id}</title>
+</head>
+<body>
+    <p>Firstname: {customer.firstName}</p>
+    <p>Lastname: {customer.lastName}</p>
+</body>
+</html>
+----
+reservation.html
+[source,html]
+----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReservationID {reservation.id}</title>
+</head>
+<body>
+    <p>Reservationdate: {reservation.reservationDate}</p>
+    <p>Table: {reservation.reservationTable}</p>
+    <p>Customer: {reservation.customer}</p>
+</body>
+</html>
+----
+
+tables.html
+[source, html]
+----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TableID {table.id}</title>
+</head>
+<body>
+    <p>TableNr: {table.tableNr}</p>
+    <p>Seats: {table.seats}</p>
+</body>
+</html>
+----
