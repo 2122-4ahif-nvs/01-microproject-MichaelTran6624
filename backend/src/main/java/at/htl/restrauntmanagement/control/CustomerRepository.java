@@ -32,4 +32,12 @@ public class CustomerRepository {
     public void validateCustomer(@Valid Customer customer) {
 
     }
+
+    public Customer findById(Long id) {
+        TypedQuery<Customer> query = em
+                .createQuery("select c from Customer c where :ID = c.id", Customer.class);
+
+        query.setParameter("ID", id);
+        return query.getSingleResult();
+    }
 }

@@ -34,4 +34,13 @@ public class ReservationRepository {
     public void validateReservation(@Valid Reservation reservation) {
 
     }
+
+    public Reservation findById(Long id) {
+        TypedQuery<Reservation> query = em
+                .createQuery("select r from Reservation r where :ID = r.id", Reservation.class);
+
+        query.setParameter("ID", id);
+
+        return query.getSingleResult();
+    }
 }

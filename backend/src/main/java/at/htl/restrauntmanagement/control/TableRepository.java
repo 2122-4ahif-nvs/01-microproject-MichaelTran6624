@@ -31,4 +31,12 @@ public class TableRepository {
     public void validateTable(@Valid Table table) {
 
     }
+
+    public Table findById(Long id) {
+        TypedQuery<Table> query = em
+                .createQuery("select t from Table t where :ID = t.id", Table.class);
+        query.setParameter("ID", id);
+
+        return query.getSingleResult();
+    }
 }
