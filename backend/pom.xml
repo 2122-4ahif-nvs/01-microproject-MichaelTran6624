@@ -45,6 +45,14 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-derby</artifactId>
     </dependency>
+
+
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-qute</artifactId>
+    </dependency>
+
+
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
@@ -64,7 +72,6 @@
       <version>3.21.0</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
