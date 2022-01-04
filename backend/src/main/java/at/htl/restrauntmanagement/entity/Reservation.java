@@ -71,6 +71,9 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return String.format("%d: %t %s %s", id, reservationDate, customer, reservationTable);
+        return String.format("id: %d \n" +
+                " Reservationdate: %t \n" +
+                " Customer: %s \n" +
+                " Reservationtable: %s", id, reservationDate, customer, reservationTable);
     }
 }

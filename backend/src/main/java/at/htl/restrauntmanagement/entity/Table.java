@@ -59,6 +59,6 @@ public class Table {
 
     @Override
     public String toString() {
-        return String.format("%d: %s: %d", id, tableNr, seats);
+        return String.format("id: %d \n TableNr: %s \n Seats: %d", id, tableNr, seats);
     }
 }

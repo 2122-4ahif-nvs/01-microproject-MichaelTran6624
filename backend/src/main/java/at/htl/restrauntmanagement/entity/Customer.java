@@ -60,7 +60,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return String.format("%d: %s %s", id, firstName, lastName);
+        return String.format("id: %d \n Firstname: %s \n Lastname: %s", id, firstName, lastName);
     }
 
 }
