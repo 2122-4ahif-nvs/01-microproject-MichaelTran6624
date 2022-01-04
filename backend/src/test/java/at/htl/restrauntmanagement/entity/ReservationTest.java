@@ -20,7 +20,7 @@ class ReservationTest {
     @Test
     @Transactional
     void addReservatiion(){
-        Table table = new Table(1L, 3);
+        Table table = new Table("1L", 3);
         Customer customer = new Customer("Michael", "Tran");
 
         em.persist(new Reservation(LocalDate.now(), customer, table));
