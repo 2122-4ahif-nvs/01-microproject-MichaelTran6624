@@ -8,9 +8,12 @@ import at.htl.restrauntmanagement.entity.Customer;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.xml.transform.Templates;
 
 import at.htl.restrauntmanagement.entity.Reservation;
 import at.htl.restrauntmanagement.entity.Table;
+import io.quarkus.qute.CheckedTemplate;
+import io.quarkus.qute.TemplateInstance;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Query;
@@ -29,6 +32,13 @@ public class CustomerResource {
 
     @Inject
     ReservationRepository reservationRepository;
+
+    @CheckedTemplate
+    public static class Templates {
+        public static native TemplateInstance customers(Customer customer);
+        public static native TemplateInstance tables(Table table);
+        public static native TemplateInstance reservations(Reservation reservation);
+    }
 
     @Mutation
     public Customer addCustomer(Customer customer) {
@@ -67,5 +77,26 @@ public class CustomerResource {
     @Query("getAllReservations")
     public List<Reservation> getAllReservations(){
         return reservationRepository.getAllReservations();
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/html/customer/{id}")
+    public TemplateInstance getCustomerHTML(@PathParam("id") Long id) {
+        return Templates.customers(customerRepository.findById(id));
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/html/table/{id}")
+    public TemplateInstance getTableHTML(@PathParam("id") Long id) {
+        return Templates.tables(tableRepository.findById(id));
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/html/reservation/{id}")
+    public TemplateInstance getReservationHTML(@PathParam("id") Long id) {
+        return Templates.reservations(reservationRepository.findById(id));
     }
 }
