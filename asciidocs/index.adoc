@@ -23,3 +23,106 @@ include::plantuml/cld.puml[]
 == Beschreibung
 
 Die Anwendung ist eine Webseite, wo Kunden (Customer) einen Tisch (Table) reservieren können. Der Kunde registriert sich mit Namen und gibt bei der Reservierung das Datum an. Außderdem können Kunden ihre Reservierung abrufen oder die Reservierung stonieren.
+
+== Technologien
+
+=== GraphQL
+
+==== Was ist GraphQL?
+GraphQL ist eine Abfrage Sprache für API's und eine die zur Laufzeit diese Abfragen mit den vorhandenen Daten verwendet.
+
+==== Alternativen für GraphQL
+* REST
+
+==== Verwendung im Microprojekt
+
+CustomerResource.java
+[source, java]
+----
+//
+//
+    @Mutation
+    public Customer addCustomer(Customer customer) {
+        return customerRepository.saveCustomer(customer);
+    }
+
+    @Mutation
+    public Table addTable(Table table){
+        return tableRepository.saveTable(table);
+    }
+
+    @Mutation
+    public Reservation addReservation(Reservation reservation) {
+        return reservationRepository.saveReservation(reservation);
+    }
+//
+//
+----
+* HTTP-Abfrage
+[source, http request]
+----
+###POST Customer
+
+POST http://localhost:8080/api/graphql
+Content-Type: application/graphql
+
+mutation addNewCustomer{
+  addCustomer(customer: {
+    firstName: "Max",
+    lastName: "Muster"
+  	}
+  )
+  {
+    firstName
+    lastName
+  }
+}
+
+###POST Table
+
+POST http://localhost:8080/api/graphql
+Content-Type: application/graphql
+
+mutation addNewTable {
+  addTable(table: {
+    tableNr: "1L",
+    seats: 3
+  	}
+  )
+  {
+    tableNr
+    seats
+  }
+}
+
+### POST Reservation
+
+POST http://localhost:8080/api/graphql
+Content-Type: application/graphql
+
+mutation addNewReservation{
+  addReservation(reservation: {
+		customer: {
+      firstName: "Max"
+      lastName: "Muster"
+    },
+    reservationTable: {
+      tableNr: "1L"
+      seats: 3
+    },
+    reservationDate: "2022-01-04"
+  	}
+  )
+  {
+    customer{
+      firstName
+      lastName
+    }
+    reservationTable{
+      tableNr
+      seats
+    }
+    reservationDate
+  }
+}
+----
