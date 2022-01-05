@@ -132,7 +132,9 @@ mutation addNewReservation{
 Customer.java
 [source, java]
 ----
-//
+/*
+...
+*/
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -145,13 +147,17 @@ Customer.java
     @Size(message = "Lastname length has to be between 2 and 40", min = 2, max = 40)
     @NotBlank(message = "Lastname cannot be empty")
     String lastName;
-//
+/*
+...
+*/
 ----
 
 Table.java
 [source, java]
 ----
-//
+/*
+...
+*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -164,13 +170,17 @@ Table.java
     @NotBlank(message = "Seats cannot be empty")
     @Min(message = "Seats have to be greater than 1", value = 1)
     int seats;
-//
+/*
+...
+*/
 ----
 
 Reservation.java
 [source, java]
 ----
-//
+/*
+...
+*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -186,7 +196,9 @@ Reservation.java
     @NotBlank(message = "Reservationtable cannot be empty")
     @ManyToOne(cascade = CascadeType.ALL)
     Table reservationTable;
-//
+/*
+...
+*/
 ----
 
 === Qute
@@ -201,14 +213,18 @@ Qute ist eine Templating-Engine, die speziell für die Bedürfnisse von Quarkus 
 CustomerResource.java
 [source, java]
 ----
-//
+/*
+...
+*/
     @CheckedTemplate
     public static class Templates {
         public static native TemplateInstance customers(Customer customer);
         public static native TemplateInstance tables(Table table);
         public static native TemplateInstance reservations(Reservation reservation);
     }
-//
+/*
+...
+*/
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/html/customer/{id}")
@@ -229,7 +245,9 @@ CustomerResource.java
     public TemplateInstance getReservationHTML(@PathParam("id") Long id) {
         return Templates.reservations(reservationRepository.findById(id));
     }
-//
+/*
+...
+*/
 ----
 
 customer.html
@@ -278,4 +296,84 @@ tables.html
     <p>Seats: {table.seats}</p>
 </body>
 </html>
+----
+
+=== gRPC
+
+==== Was ist gRPC?
+gRPC ist ein Remote Procedure Call Framework, welches Aufrufe von Funktionen in anderen Addressräumen zulässt.
+
+==== Was wird gelöst?
+Ein Programm kann den Dienst eines anderen Programmes verwenden, die nicht im selben Netzwerk sind.
+
+==== Verwendung im Mikroprojekt
+helloworld.proto
+[source, prototext]
+----
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.quarkus.example";
+option java_outer_classname = "HelloWorldProto";
+
+package helloworld;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+----
+
+HelloService.java
+[source, java]
+----
+package at.htl.restrauntmanagement.boundary;
+
+import io.quarkus.example.Greeter;
+import io.quarkus.example.HelloReply;
+import io.quarkus.example.HelloRequest;
+import io.quarkus.grpc.GrpcService;
+import io.smallrye.mutiny.Uni;
+
+@GrpcService
+public class HelloService implements Greeter {
+
+    @Override
+    public Uni<HelloReply> sayHello(HelloRequest request) {
+        return Uni.createFrom().item(() ->
+                HelloReply.newBuilder().setMessage("Hello " + request.getName() + "!").build()
+        );
+    }
+}
+----
+
+CustomerResource.java
+[source, java]
+----
+/*
+...
+*/
+    @GrpcClient
+    Greeter hello;
+/*
+...
+*/
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/greet/{name}")
+    public Uni<String> greetCustomer(@PathParam("name") String name){
+        return hello.sayHello(HelloRequest.newBuilder().setName(name).build())
+                .onItem().transform(helloReply -> helloReply.getMessage());
+    }
 ----

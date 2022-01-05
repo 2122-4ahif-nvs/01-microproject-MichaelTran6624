@@ -114,6 +114,4 @@ public class CustomerResource {
         return hello.sayHello(HelloRequest.newBuilder().setName(name).build())
                 .onItem().transform(helloReply -> helloReply.getMessage());
     }
-
-
 }

@@ -1,6 +1,5 @@
 package at.htl.restrauntmanagement.boundary;
 
-
 import io.quarkus.example.Greeter;
 import io.quarkus.example.HelloReply;
 import io.quarkus.example.HelloRequest;
