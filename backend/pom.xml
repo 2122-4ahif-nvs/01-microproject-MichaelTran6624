@@ -154,6 +154,7 @@
         </plugins>
       </build>
       <properties>
+        <quarkus.generate-code.grpc.scan-for-imports>all</quarkus.generate-code.grpc.scan-for-imports>
         <quarkus.package.type>native</quarkus.package.type>
       </properties>
     </profile>

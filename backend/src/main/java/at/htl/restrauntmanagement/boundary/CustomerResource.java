@@ -12,8 +12,12 @@ import javax.xml.transform.Templates;
 
 import at.htl.restrauntmanagement.entity.Reservation;
 import at.htl.restrauntmanagement.entity.Table;
+import io.quarkus.example.Greeter;
+import io.quarkus.example.HelloRequest;
+import io.quarkus.grpc.GrpcClient;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
+import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Query;
@@ -23,6 +27,9 @@ import java.util.List;
 @GraphQLApi
 @Path("/customer")
 public class CustomerResource {
+
+    @GrpcClient
+    Greeter hello;
 
     @Inject
     CustomerRepository customerRepository;
@@ -99,4 +106,14 @@ public class CustomerResource {
     public TemplateInstance getReservationHTML(@PathParam("id") Long id) {
         return Templates.reservations(reservationRepository.findById(id));
     }
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/greet/{name}")
+    public Uni<String> greetCustomer(@PathParam("name") String name){
+        return hello.sayHello(HelloRequest.newBuilder().setName(name).build())
+                .onItem().transform(helloReply -> helloReply.getMessage());
+    }
+
+
 }
