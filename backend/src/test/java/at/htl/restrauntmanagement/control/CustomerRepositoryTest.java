@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 @QuarkusTest
 class CustomerRepositoryTest {
@@ -41,7 +42,7 @@ class CustomerRepositoryTest {
             customerRepository.validateCustomer(new Customer("Michael","Tran"));
         }
         catch (ConstraintViolationException ex) {
-            System.out.println(ex.toString());
+            fail(ex.toString());
         }
     }
 }

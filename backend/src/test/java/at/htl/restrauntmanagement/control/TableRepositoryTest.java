@@ -43,7 +43,7 @@ class TableRepositoryTest {
             tableRepository.validateTable(new Table("1L", 3));
         }
         catch (ConstraintViolationException ex) {
-            System.out.println(ex.toString());
+            fail(ex.toString());
         }
     }
 }

@@ -56,7 +56,7 @@ class ReservationRepositoryTest {
             reservationRepository.validateReservation(new Reservation(date, customer, table));
         }
         catch (ConstraintViolationException ex) {
-            System.out.println(ex.toString());
+            fail(ex.toString());
         }
     }
 }
