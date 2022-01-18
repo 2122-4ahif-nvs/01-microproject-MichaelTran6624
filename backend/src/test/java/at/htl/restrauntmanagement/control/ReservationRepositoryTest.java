@@ -26,7 +26,12 @@ class ReservationRepositoryTest {
     @Order(1000)
     void saveReservation() {
         Table table = new Table("1L", 3);
-        Customer customer = new Customer("Michael", "Tran");
+        Customer customer = new Customer(
+                "Michael",
+                "Tran",
+                "MTRAN",
+                "MTK",
+                "admin");
         LocalDate date = LocalDate.now();
 
         Reservation reservation = reservationRepository
@@ -39,7 +44,12 @@ class ReservationRepositoryTest {
     @Order(1001)
     void getAllReservations() {
         Table table = new Table("1L", 3);
-        Customer customer = new Customer("Michael", "Tran");
+        Customer customer = new Customer(
+                "Michael",
+                "Tran",
+                "MTRAN",
+                "MTK",
+                "admin");
         LocalDate date = LocalDate.now();
 
         reservationRepository.saveReservation(new Reservation(date, customer, table));
@@ -55,7 +65,12 @@ class ReservationRepositoryTest {
     void validateReservation(){
         try{
             Table table = new Table("1L", 3);
-            Customer customer = new Customer("Michael", "Tran");
+            Customer customer = new Customer(
+                    "Michael",
+                    "Tran",
+                    "MTRAN",
+                    "MTK",
+                    "admin");
             LocalDate date = LocalDate.now();
             reservationRepository.validateReservation(new Reservation(date, customer, table));
         }

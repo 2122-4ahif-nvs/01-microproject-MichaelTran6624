@@ -22,7 +22,12 @@ class CustomerRepositoryTest {
     @Test
     @Order(2000)
     void saveCustomer() {
-        Customer customer = customerRepository.saveCustomer(new Customer("Michael","Tran"));
+        Customer customer = customerRepository.saveCustomer(new Customer(
+                "Michael",
+                "Tran",
+                "MTRAN",
+                "MTK",
+                "admin"));
 
         assertThat(customer.getFirstName()).isEqualTo("Michael");
     }
@@ -30,8 +35,18 @@ class CustomerRepositoryTest {
     @Test
     @Order(2001)
     void getAllCustomer() {
-        customerRepository.saveCustomer(new Customer("Michael", "Tran"));
-        customerRepository.saveCustomer(new Customer("Max", "Muster"));
+        customerRepository.saveCustomer(new Customer(
+                "Michael",
+                "Tran",
+                "MTRAN",
+                "MTK",
+                "admin"));
+        customerRepository.saveCustomer(new Customer(
+                "Max",
+                "Muster",
+                "MM",
+                "AXUSTER",
+                "customer"));
 
         List<Customer> customers = customerRepository.getAllCustomer();
 
@@ -42,7 +57,12 @@ class CustomerRepositoryTest {
     @Order(2002)
     void validateCustomer(){
         try{
-            customerRepository.validateCustomer(new Customer("Michael","Tran"));
+            customerRepository.validateCustomer(new Customer(
+                    "Michael",
+                    "Tran",
+                    "MTRAN",
+                    "MKT",
+                    "admin"));
         }
         catch (ConstraintViolationException ex) {
             fail(ex.toString());
