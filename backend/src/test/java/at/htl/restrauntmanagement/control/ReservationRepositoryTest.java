@@ -4,6 +4,7 @@ import at.htl.restrauntmanagement.entity.Customer;
 import at.htl.restrauntmanagement.entity.Reservation;
 import at.htl.restrauntmanagement.entity.Table;
 import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ class ReservationRepositoryTest {
     ReservationRepository reservationRepository;
 
     @Test
+    @Order(1000)
     void saveReservation() {
         Table table = new Table("1L", 3);
         Customer customer = new Customer("Michael", "Tran");
@@ -34,6 +36,7 @@ class ReservationRepositoryTest {
     }
 
     @Test
+    @Order(1001)
     void getAllReservations() {
         Table table = new Table("1L", 3);
         Customer customer = new Customer("Michael", "Tran");
@@ -48,6 +51,7 @@ class ReservationRepositoryTest {
     }
 
     @Test
+    @Order(1002)
     void validateReservation(){
         try{
             Table table = new Table("1L", 3);

@@ -20,6 +20,7 @@ class CustomerRepositoryTest {
     CustomerRepository customerRepository;
 
     @Test
+    @Order(2000)
     void saveCustomer() {
         Customer customer = customerRepository.saveCustomer(new Customer("Michael","Tran"));
 
@@ -27,6 +28,7 @@ class CustomerRepositoryTest {
     }
 
     @Test
+    @Order(2001)
     void getAllCustomer() {
         customerRepository.saveCustomer(new Customer("Michael", "Tran"));
         customerRepository.saveCustomer(new Customer("Max", "Muster"));
@@ -37,6 +39,7 @@ class CustomerRepositoryTest {
     }
 
     @Test
+    @Order(2002)
     void validateCustomer(){
         try{
             customerRepository.validateCustomer(new Customer("Michael","Tran"));

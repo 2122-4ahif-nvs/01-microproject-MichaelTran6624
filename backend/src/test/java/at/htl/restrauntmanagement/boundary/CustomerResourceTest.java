@@ -29,7 +29,7 @@ class CustomerResourceTest {
                 .get("customer/allTables")
                 .then()
                 .statusCode(200)
-                .body(startsWith("{["));
+                .body(startsWith("[{"));
     }
 
     @Test
@@ -38,6 +38,6 @@ class CustomerResourceTest {
                 .get("customer/allReservations")
                 .then()
                 .statusCode(200)
-                .body(startsWith("{["));
+                .body(startsWith("[{"));
     }
 }
