@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+
+class Table {
+    tableNr: String
+    seats: int
+}
+
+class Reservation {
+    reservationId: Long
+    reservationDate: LocalDate
+}
+
+class Customer {
+    firstName: String
+    lastName: String
+}
+
+class TableReservation {
+}
+
+Table "1" <-- "*" TableReservation
+TableReservation "*" --> "1" Reservation
+Reservation "*" --> "1" Customer
+
+@enduml
