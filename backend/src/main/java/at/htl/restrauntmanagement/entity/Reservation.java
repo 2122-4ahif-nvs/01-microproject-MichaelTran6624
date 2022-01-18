@@ -1,7 +1,7 @@
 package at.htl.restrauntmanagement.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -13,14 +13,12 @@ public class Reservation {
     Long id;
 
     @Column(name = "RE_RESERVATIONDATE")
-    @NotBlank(message = "Date cannot be empty")
+    @NotNull(message = "Date cannot be empty")
     LocalDate reservationDate;
 
-    @NotBlank(message = "Customer cannot be empty")
     @ManyToOne(cascade = CascadeType.ALL)
     Customer customer;
 
-    @NotBlank(message = "Reservationtable cannot be empty")
     @ManyToOne(cascade = CascadeType.ALL)
     Table reservationTable;
 

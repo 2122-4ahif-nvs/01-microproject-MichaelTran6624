@@ -5,6 +5,8 @@ import at.htl.restrauntmanagement.control.ReservationRepository;
 import at.htl.restrauntmanagement.control.TableRepository;
 import at.htl.restrauntmanagement.entity.Customer;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -47,22 +49,26 @@ public class CustomerResource {
         public static native TemplateInstance reservations(Reservation reservation);
     }
 
+    @PermitAll
     @Mutation
     public Customer addCustomer(Customer customer) {
         return customerRepository.saveCustomer(customer);
     }
 
+    @PermitAll
     @Mutation
     public Table addTable(Table table){
         return tableRepository.saveTable(table);
     }
 
+    @PermitAll
     @Mutation
     public Reservation addReservation(Reservation reservation) {
         return reservationRepository.saveReservation(reservation);
     }
 
     @GET
+    @PermitAll
     @Path("allCustomer")
     @Produces(MediaType.APPLICATION_JSON)
     @Query("getAllCustomer")
@@ -71,6 +77,7 @@ public class CustomerResource {
     }
 
     @GET
+    @PermitAll
     @Path("allTables")
     @Produces(MediaType.APPLICATION_JSON)
     @Query("getAllTables")
@@ -79,6 +86,7 @@ public class CustomerResource {
     }
 
     @GET
+    @PermitAll
     @Path("allReservations")
     @Produces(MediaType.APPLICATION_JSON)
     @Query("getAllReservations")
@@ -87,6 +95,7 @@ public class CustomerResource {
     }
 
     @GET
+    @PermitAll
     @Produces(MediaType.TEXT_HTML)
     @Path("/html/customer/{id}")
     public TemplateInstance getCustomerHTML(@PathParam("id") Long id) {
@@ -94,6 +103,7 @@ public class CustomerResource {
     }
 
     @GET
+    @RolesAllowed("customer")
     @Produces(MediaType.TEXT_HTML)
     @Path("/html/table/{id}")
     public TemplateInstance getTableHTML(@PathParam("id") Long id) {
@@ -101,6 +111,7 @@ public class CustomerResource {
     }
 
     @GET
+    @RolesAllowed("customer")
     @Produces(MediaType.TEXT_HTML)
     @Path("/html/reservation/{id}")
     public TemplateInstance getReservationHTML(@PathParam("id") Long id) {
@@ -108,6 +119,7 @@ public class CustomerResource {
     }
 
     @GET
+    @RolesAllowed("customer")
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/greet/{name}")
     public Uni<String> greetCustomer(@PathParam("name") String name){

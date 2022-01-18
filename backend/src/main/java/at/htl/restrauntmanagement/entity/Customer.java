@@ -1,12 +1,17 @@
 package at.htl.restrauntmanagement.entity;
 
+import io.quarkus.security.jpa.Password;
+import io.quarkus.security.jpa.Roles;
+import io.quarkus.security.jpa.UserDefinition;
+import io.quarkus.security.jpa.Username;
+
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
 @javax.persistence.Table(name = "RE_CUSTOMER")
+@UserDefinition
 public class Customer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +27,31 @@ public class Customer {
     @NotBlank(message = "Lastname cannot be empty")
     String lastName;
 
+    @Column(name = "CU_USERNAME")
+    @NotBlank(message = "Username cannot be empty")
+    @Username
+    String username;
+
+    @Column(name = "CU_PASSWORD")
+    @NotBlank(message = "Password cannot be empty")
+    @Password
+    String password;
+
+    @Column(name = "CU_ROLE")
+    @NotBlank(message = "Role cannot be empty")
+    @Roles
+    String role;
+
     //region constructors
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName) {
+    public Customer(String firstName, String lastName, String username, String password, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
     //endregion
 
@@ -56,6 +79,31 @@ public class Customer {
     public Long getId() {
         return id;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     //endregion
 
     @Override

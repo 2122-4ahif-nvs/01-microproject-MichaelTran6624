@@ -1,6 +1,7 @@
 package at.htl.restrauntmanagement.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
@@ -17,8 +18,8 @@ public class Table {
     String tableNr;
 
     @Column(name = "TA_SEATS")
-    @NotBlank(message = "Seats cannot be empty")
     @Min(message = "Seats have to be greater than 1", value = 1)
+    @Max(message = "Seats cannot be greater than 10", value = 10)
     int seats;
 
     //region constructors
