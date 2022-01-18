@@ -377,3 +377,114 @@ CustomerResource.java
                 .onItem().transform(helloReply -> helloReply.getMessage());
     }
 ----
+
+=== Security with JPA
+
+==== Was ist das Problem?
+
+Eine Quarkus Applikation ist nicht geschützt. Um sie zu schützen verwenden wir
+eine der Möglichkeiten die Applikation zu schützen mit JPA.
+
+==== Alternativen eine Quarkus-Applikation zu schützen
+* Security with .properties files
+* Security with JDBC
+* Security with LDAP
+* ...
+
+==== Verwendung im Mikroprojekt
+
+Customer.java
+[source, java]
+----
+@UserDefinition // <.>
+public class Customer {
+...
+
+    @Column(name = "CU_USERNAME")
+    @NotBlank(message = "Username cannot be empty")
+    @Username // <.>
+    String username;
+
+    @Column(name = "CU_PASSWORD")
+    @NotBlank(message = "Password cannot be empty")
+    @Password // <.>
+    String password;
+
+    @Column(name = "CU_ROLE")
+    @NotBlank(message = "Role cannot be empty")
+    @Roles // <.>
+    String role;
+
+...
+
+    public Customer(String firstName, String lastName, String username, String password, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+...
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+...
+----
+
+<.> `@UserDefinition` - Annotiation darf nur in einer Entity sein. Die Verwendung von `security-jpa` - extension wird verwendet.
+<.> das Feld ist der Username
+<.> das Feld ist das Passwort
+<.> das Feld ist die Rolle
+
+CustomerResource.java
+[source, java, highlight=3;12]
+----
+...
+
+    @PermitAll
+    @Mutation // <.>
+    public Customer addCustomer(Customer customer) {
+        return customerRepository.saveCustomer(customer);
+    }
+
+...
+
+    @GET // <.>
+    @RolesAllowed("customer")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/greet/{name}")
+    public Uni<String> greetCustomer(@PathParam("name") String name){
+        return hello.sayHello(HelloRequest.newBuilder().setName(name).build())
+                .onItem().transform(helloReply -> helloReply.getMessage());
+    }
+
+...
+----
+
+Es werden Rechte auf die jeweiligen Methoden verteilt.
+
+<.> in der Methode können alle Benutzer zugreifen
+<.> in der Methode können nur Benutzer mit der Rolle `customer` zugreifen
